@@ -1,0 +1,43 @@
+instala dependencias e instala o que é necessario  =   pip freeze > requirements.txt
+
+
+flask run = roda no local host, antes da aplicação
+
+flask run --host 0.0.0.0  =  escuta no ip da interface, deve se fazer isso no dockerfile, pois se não ele recebe requisições 
+
+O Dockerfile é um meio que utilizamos para criar nossas próprias imagens
+
+
+# comando que será executado quando iniciar um container a partir dessa imagem, sobe a aplicação
+CMD ["flask", "run", "--host", "0.0.0.0"]
+
+
+CMD ["flask", "run", "--host", "0.0.0.0"]   =   comando que vai ser executado quando eu criar o container a partir dessa imagem 
+
+
+
+# CRIANDO IMAGEM:
+
+-> docker build -t flask-app:dev-0.0.1 .
+
+# CRIANDO CONTAINER
+
+docker run -d -P flask-app:dev-0.0.1  # "-d"  =  roda em background  # "-P" = usa o expose do dockerfile, ele pega uma porta do docker host e mapeia para porta exposta no container
+
+
+docker ps  # vai ver que o contaienr esta rodando
+
+
+# em "PORTS" vai aparecer que se conectar na porta 49300 do meu host, ele vai mapear isso para a porta do container: ex: localhost:49300  ->  Assim, o flask estará funcionando dentro de um container totalmente isolado do meu SO 
+
+pode criar varias aplicações totalmente isoladas e funcionando
+
+
+# docker logs "id" -f  # do container para ver os logs do container
+-f  =  para ver em tempo real os erros aparecendo
+
+# ENTRAR NO CONTAINER
+
+docker exec "id" ls /  #lista
+
+docker exec -it "id" bash  # entra no container app
